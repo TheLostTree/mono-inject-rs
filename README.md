@@ -30,3 +30,13 @@ After building the dll from mono_load, copy and paste it in the same directory a
 `mono_inject.exe --process "target.exe" --dll "inject.dll"  --namespace NameSpaceClass --class Loader --method Init`
 
  Optional: `--module "mono.dll` ` --module "mono-2.0-bdwgc.dll"` (default is mono.dll)
+
+
+
+## Makefile Usage
+
+Just run 
+```
+make everything
+```
+The result will go to bin/

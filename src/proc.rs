@@ -75,7 +75,7 @@ pub fn get_pid(target_name: &String) -> u32 {
             let c_str = unsafe { CStr::from_ptr(process_entry.szExeFile.as_ptr()) };
             let process_name = c_str.to_str().unwrap();
 
-            if (target_name.to_lowercase() == process_name.to_lowercase()) {
+            if target_name.to_lowercase() == process_name.to_lowercase() {
                 log::info!("get_pid | found process: {}", process_name);
                 return process_entry.th32ProcessID;
             }
@@ -156,8 +156,8 @@ pub fn mono_loader_func(
 
             log::debug!("name of mexported function offset:{}", func_name); // must be inject from mono loader lib.dll
 
-            if (func_target == func_name) {
-                if let Ok(name) = CStr::from_ptr(name).to_str() {
+            if func_target == func_name {
+                if let Ok(_) = CStr::from_ptr(name).to_str() {
                     let ordinal = ordinals[i as usize] as usize;
                     // lib as usize + offset only
                     let loaderaddr = functions[ordinal] as usize;
@@ -191,6 +191,7 @@ pub fn mono_loader_func(
     //DWORD* NamesArray = (DWORD*)((BYTE*)MODULE_HANDLE + p_exports_directory->AddressOfNames);
 
     let aka = unsafe { (*p_exports_directory).AddressOfNames };
+    #[allow(unused_variables)]
     let names_array = lib as u32 + aka;
 
     // SymEnumSymbols(hProcess, BaseOfDll, Mask, EnumSymbolsCallback, CallerData)
@@ -247,7 +248,7 @@ pub fn module_handles(proc: HANDLE, module_name: &str) -> usize {
 
             match String::from_utf16(slice) {
                 Ok(val) => current_module_name = val,
-                Err(e) => {}
+                Err(_) => {}
             }
 
             //println!("module haNdles {}", current_module_name);

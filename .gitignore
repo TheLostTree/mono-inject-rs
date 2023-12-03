@@ -1,2 +1,4 @@
 /target
 /mono_load/target
+/bin
+/.vscode

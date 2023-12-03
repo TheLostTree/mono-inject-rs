@@ -5,7 +5,6 @@ use std::ffi::CString;
 use winapi::shared::minwindef;
 use winapi::shared::minwindef::{BOOL, DWORD, HINSTANCE, LPVOID};
 
-use winapi::um::consoleapi;
 use winapi::um::fileapi::{CreateFileA, WriteFile, OPEN_EXISTING};
 use winapi::um::handleapi::CloseHandle;
 use winapi::um::libloaderapi::{GetModuleHandleA, GetProcAddress};
@@ -48,7 +47,7 @@ fn arg_to_string(bytes: &[i8]) -> String {
     println!("arg_to_string: {}", name);
 
     return name;
-} 
+}
 
 #[no_mangle]
 pub extern "C" fn inject(loader_args: *mut libc::c_void) {
@@ -109,7 +108,7 @@ fn payload(
     let mono_module = unsafe { GetModuleHandleA(handle_str.as_ptr()) }; // mono-2.0-bdwgc.dll
 
     println!("mono_module address: {:?}", mono_module);
-    
+
     let c1 = CString::new("mono_get_root_domain").unwrap();
     let get_root_domain_addr = unsafe { GetProcAddress(mono_module, c1.as_ptr()) };
     println!(
@@ -149,10 +148,10 @@ fn payload(
         )
     };
 
-    let cx1 = CString::new(dll).unwrap(); 
+    let cx1 = CString::new(dll).unwrap();
     let mono_assembly = assembly_open_m(cx1.as_ptr(), std::ptr::null_mut());
     println!("assembly_open result: {:?}", mono_assembly);
-    
+
     let c4 = CString::new("mono_assembly_get_image").unwrap();
     let assembly_get_image_addr = unsafe { GetProcAddress(mono_module, c4.as_ptr()) };
 

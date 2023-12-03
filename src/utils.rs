@@ -1,6 +1,7 @@
 //use crate::ArrType;
 use crate::defs::ArrType;
 
+#[allow(dead_code)]
 pub fn cmp_array_string(string1: &str, array: &[i8]) -> u8 {
     let mut name = String::from("");
     for n in array {

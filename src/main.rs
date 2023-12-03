@@ -179,7 +179,6 @@ fn main() -> io::Result<()> {
         .init()
         .unwrap();
 
-
     let pid = proc::get_pid(&target);
 
     if pid == 0 {
@@ -194,17 +193,13 @@ fn main() -> io::Result<()> {
     log::debug!("hproc value {:p}", h_proc);
     println!("Found process, attempting to inject loader");
     let mono_load_path = get_mono_loader().unwrap();
-    inject(
-        h_proc,
-        &mono_load_path, 
-    )
-    .unwrap();
+    inject(h_proc, &mono_load_path).unwrap();
 
     let pipe_name = format!("{}{}", "\\\\.\\pipe\\MLPIPE_", pid);
 
     let mono_load_path_str = String::from_str(mono_load_path.to_str().unwrap()).unwrap();
-    let mono_module = String::from("mono_lib.dll"); 
-    let mono_inject_func = String::from("inject"); 
+    let mono_module = String::from("mono_lib.dll");
+    let mono_inject_func = String::from("inject");
 
     let named_pipe = CString::new(pipe_name.clone()).unwrap();
 
@@ -329,7 +324,7 @@ fn main() -> io::Result<()> {
             ReadFile(
                 h_pipe,
                 buffer.as_mut_ptr() as *mut _,
-                1024, 
+                1024,
                 &mut bytes_read as *mut _,
                 std::ptr::null_mut(),
             )

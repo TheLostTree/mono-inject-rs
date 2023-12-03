@@ -12,5 +12,3 @@ libc = "0.2.115"
 log = "0.4"
 simple_logger = "4.0.0"
 argparse = "0.2.2"
-[build]
-target = "i686-pc-windows-gnu"
